@@ -123,12 +123,14 @@ void Compute(graph<vertex>& GA, commandLine P) {
 	toRemove.del();
       }
     }
+    std::cout << "k = " << k << ", number of activated vertices = " << Frontier.numNonzeros();
 #ifdef DEBUG_EN
     size_t vm, rss;
     pid_t pid = getpid();
     process_mem_usage(pid, vm, rss);
-    std::cout << "k = " << k << ", number of activated vertices = " << Frontier.numNonzeros()
-              << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
+    std::cout << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
+#else
+    std::cout << std::endl;
 #endif
 
 #ifdef ITER_PROFILE_EN

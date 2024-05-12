@@ -20,7 +20,6 @@ threshold=90
 nverts=$(cat ${dataset_path}/${dataset_name}.config)
 
 echo $nverts
-exit
 
 cd CSRGraph && make
-./bin/main -f ${dataset_path} --prefix ${dataset_name} --ssd ${out_path} --sblk_pool_size ${sblk_size} --global_threshold ${threshold} -t 1 -q 0 -j 6 -v ${nverts}
+./bin/main -f ${base}/${dataset_path} --prefix ${dataset_name} --ssd ${base}/${out_path} --sblk_pool_size ${sblk_size} --global_threshold ${threshold} -t 1 -q 0 -j 6 -v ${nverts}

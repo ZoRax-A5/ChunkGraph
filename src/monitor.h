@@ -11,7 +11,7 @@
 #include <vector>
 
 // #define PROFILE_EN
-#define DEBUG_EN
+// #define DEBUG_EN
 // #define ITER_PROFILE_EN
 // #define VERTEXCUT_PROFILE_EN
 

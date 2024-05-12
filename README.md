@@ -1,8 +1,10 @@
 # ChunkGraph
 
 This respository is for following paper:
+**ATC'24 paper:** Efficient Large Graph Processing with Chunk-Based Graph Representation Model.
+Our work is based on the Ligra system, which is a high-performance graph processing system. 
+You can refer to the [Ligra repository](https://github.com/jshun/ligra/blob/master/README.md.) for more details: 
 
-**ATC'24 paper:** Efficient Large Graph Processing with Chunk-Based Graph Representation Model
 
 ## Abstract
 
@@ -27,6 +29,10 @@ external graph systems, as well as in-memory graph systems
 relying on general cache systems, running several times faster.
 
 ## Getting Started Instructions
+
+### prequisites
+Our system is based on Ubuntu 20.04.6 LTS with Linux kernel of 5.4.0, and it requires g++ >= 5.3.0 with OpenMP.
+
 
 ### Installation
 ```bash
@@ -58,10 +64,10 @@ $ mv soc-LiveJournal1.txt livejournal.txt
 
 ## convert to csr format
 $ cd $ChunkGraph
-$ bash ./preprocess/text2csr.sh ./Dataset/LiveJournal/ livejournal
+$ bash ./preprocess/text2csr.sh Dataset/LiveJournal/ livejournal
 ## convert to chunk format
 $ mkdir ./Dataset/LiveJournal/chunk
-$ bash ./preprocess/csr2chunk.sh ./Dataset/LiveJournal/csr_bin/ livejournal ./Dataset/LiveJournal/chunk/
+$ bash ./preprocess/csr2chunk.sh Dataset/LiveJournal/csr_bin/ livejournal Dataset/LiveJournal/chunk/
 ```
 
 ### Running
@@ -69,7 +75,7 @@ $ bash ./preprocess/csr2chunk.sh ./Dataset/LiveJournal/csr_bin/ livejournal ./Da
 
 ```bash
 $ cd ./apps
-$ ./BFS -b -chunk -r 3 -t 16 /Dataset/LiveJournal/chunk/livejournal
+$ ./BFS -b -chunk -r 12 -t 48 $ChunkGraph/Dataset/LiveJournal/chunk/livejournal
 ```
 
 The key statistic data for graph querying would be recorded to `chunkgraph_query_time.csv` file, e.g.
@@ -95,7 +101,7 @@ This artifact runs on Ubuntu 20.04.6 LTS with Linux kernel of 5.4.0, and we use 
 ### Installation
 Users need to download the source code and scripts from Zenodo to the server. 
 The following is the directory structure of the source code, scripts, and instructions:
-* README.md: This file contains a detailed step-by-step "Getting Started Instructions" guide, and "detailed instructions" for running the experiments. 
+* README.md: This file contains a detailed step-by-step "Getting Started Instructions" guide, and "Detailed Instructions" for running the experiments. 
 * src: This directory contains the source code of ChunkGraph and Ligra-mmap.
 * CSRGraph: This directory contains the source code of Chunk Layout Optimization of ChunkGraph. 
 * apps: This directory contains contains the graph query algorithms for ChunkGraph and Ligra-mmap.
@@ -230,8 +236,9 @@ $ ./BFS -b -r 12 /Dataset/Twitter/twitter
 Blaze is a graph processing system designed for SSDs. 
 We use the Blaze system for comparison. 
 Blaze ingests graph data from customized csr-format files of binary format. 
-You can refer the README.md in the Blaze repository for more details.
+You can refer the [README.md](./blaze/README.md) in the Blaze repository for more details. 
 Compile and run the Blaze by the following commands.
+
 
 ```bash
 $ cd blaze

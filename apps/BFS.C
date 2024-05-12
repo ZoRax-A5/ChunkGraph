@@ -63,14 +63,17 @@ void Compute(graph<vertex>& GA, commandLine P) {
 #endif
 
   while(!Frontier.isEmpty()){ //loop until frontier is empty
+  std::cout << "level = " << (uint32_t)level++ << ", number of activated vertices = " << Frontier.numNonzeros();
 #ifdef DEBUG_EN
     size_t vm, rss;
     pid_t pid = getpid();
     process_mem_usage(pid, vm, rss);
-    std::cout << "level = " << (uint32_t)level++ << ", number of activated vertices = " << Frontier.numNonzeros()
-              << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
+    
+    std::cout << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
     size = Frontier.getMemorySize();
     if (size > max_size) max_size = size;
+#else
+    std::cout << std::endl;
 #endif
     vertexSubset output = edgeMap(GA, Frontier, BFS_F(Parents));    
     Frontier.del();

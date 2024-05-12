@@ -12,11 +12,14 @@ apps/BellmanFord
 apps/Components
 apps/KCore
 apps/PageRank
+apps/PageRankDelta
 apps/BC
 apps/MIS
 apps/Radii
 apps/TestAll
 apps/perf.*
+
+Dataset/*
 
 *.perf
 *.perf.old
@@ -25,3 +28,5 @@ results/*
 
 CSRGraph/bin/main
 *.out
+*.o
+*.bin

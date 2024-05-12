@@ -705,7 +705,6 @@ int parallel_main(int argc, char* argv[]) {
 #ifdef DEBUG_EN
       stat_profiler.record_read_KB(1);
 #endif
-
       setWorkers(nthreads);
       for(int r=0;r<rounds;r++) {
         process_mem_usage(pid, vm, rss);

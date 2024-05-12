@@ -31,17 +31,20 @@ mkdir -p $dataset_path/multi
 bash preprocess/split.sh $dataset_path/txt/${dataset_name}.txt $dataset_path/multi/ $file_count ${dataset_name}
 
 # convert to binary format
-cd $base/preprocess/text2bin && make
-./text2bin.bin $ChunkGraph/$dataset_path/multi/${dataset_name} $(($file_count+1)) 16 1
+cd ${base}/preprocess/text2bin && make
+./text2bin.bin ${base}/$dataset_path/multi/${dataset_name} $(($file_count+1)) 16 1
 
 # convert to csr format
-cd $base/preprocess/bin2csr && make
-./bin2csr.bin $ChunkGraph/$dataset_path/multi/${dataset_name} $(($file_count+1)) 1 1 16
+cd ${base}/preprocess/bin2csr && make
+./bin2csr.bin ${base}/$dataset_path/multi/${dataset_name} $(($file_count+1)) 1 1 16
 
 # remove the binary files and rename the csr files
-cd $base && mkdir -p $dataset_path/csr_bin
+cd ${base} && mkdir -p $dataset_path/csr_bin
 mv $dataset_path/multi/${dataset_name}_beg.0_0_of_1x1.bin $dataset_path/csr_bin/${dataset_name}.idx
 mv $dataset_path/multi/${dataset_name}_csr.0_0_of_1x1.bin $dataset_path/csr_bin/${dataset_name}.adj
 mv $dataset_path/multi/${dataset_name}.config $dataset_path/csr_bin/${dataset_name}.config
 rm -rf $dataset_path/multi
 
+# generate in-csr
+cd ${base}/preprocess/genincsr && make
+./main ${base}/$dataset_path/csr_bin/ ${dataset_name}

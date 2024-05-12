@@ -110,14 +110,16 @@ void Compute(graph<vertex>& GA, commandLine P) {
 
   intE round = 0;
   while(!Frontier.isEmpty()){
+    std::cout << "round = " << round << ", number of activated vertices = " << Frontier.numNonzeros();
 #ifdef DEBUG_EN
     size_t vm, rss;
     pid_t pid = getpid();
     process_mem_usage(pid, vm, rss);
-    std::cout << "round = " << round << ", number of activated vertices = " << Frontier.numNonzeros()
-              << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
+    std::cout << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
     size = Frontier.getMemorySize();
     if (size > max_size) max_size = size;
+#else
+    std::cout << std::endl;
 #endif
     round++;
     vertexMap(Frontier, Radii_Vertex_F(Visited,NextVisited));

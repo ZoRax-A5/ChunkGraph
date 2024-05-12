@@ -24,7 +24,7 @@
 #include "ligra.h"
 #include <vector>
 
-#define BC_DEBUG_EN
+// #define BC_DEBUG_EN
 
 typedef double fType;
 
@@ -139,14 +139,16 @@ void Compute(graph<vertex>& GA, commandLine P) {
   long round = 0;
   while(!Frontier.isEmpty()){ //first phase
     round++;
+    std::cout << "round = " << round << ", number of activated vertices = " << Frontier.numNonzeros();
 #ifdef DEBUG_EN
     size_t vm, rss;
     pid_t pid = getpid();
     process_mem_usage(pid, vm, rss);
-    std::cout << "round = " << round << ", number of activated vertices = " << Frontier.numNonzeros()
-              << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
+    std::cout << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
     size = Frontier.getMemorySize();
     if (size > max_size) max_size = size;
+#else
+    std::cout << std::endl;
 #endif
     vertexSubset output = edgeMap(GA, Frontier, BC_F(NumPaths,Visited));
     vertexMap(output, BC_Vertex_F(Visited)); //mark visited
@@ -181,14 +183,16 @@ void Compute(graph<vertex>& GA, commandLine P) {
   //tranpose graph
   GA.transpose();
   for(long r=round-2;r>=0;r--) { //backwards phase
+    std::cout << "round = " << r << ", number of activated vertices = " << Frontier.numNonzeros();
 #ifdef DEBUG_EN
     size_t vm, rss;
     pid_t pid = getpid();
     process_mem_usage(pid, vm, rss);
-    std::cout << "round = " << r << ", number of activated vertices = " << Frontier.numNonzeros()
-              << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
+    std::cout << "; memory usage: VM = " << B2GB(vm) << ", RSS = " << B2GB(rss);
     size = Frontier.getMemorySize();
     if (size > max_size) max_size = size;
+#else
+    std::cout << std::endl;
 #endif
     edgeMap(GA, Frontier, BC_Back_F(Dependencies,Visited), -1, no_output);
     Frontier.del();
